@@ -123,20 +123,22 @@ export const FinalInteraction: React.FC = () => {
                       </div>
                     </div>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => setExpandedCardId(expandedCardId === card.id ? null : card.id)}
-                    className="bg-primary-container text-white px-4 py-2 rounded-md text-sm font-bold"
-                  >
-                    {expandedCardId === card.id ? 'Tutup foto' : 'Lihat semua foto'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteCard(card.id)}
-                    className="mt-2 bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold"
-                  >
-                    Hapus Card Ini
-                  </button>
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedCardId(expandedCardId === card.id ? null : card.id)}
+                      className="bg-primary-container text-white px-4 py-2 rounded-md text-sm font-bold"
+                    >
+                      {expandedCardId === card.id ? 'Tutup foto' : 'Lihat semua foto'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteCard(card.id)}
+                      className="bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold"
+                    >
+                      Hapus Card Ini
+                    </button>
+                  </div>
                 </article>
               ))}
             </div>
