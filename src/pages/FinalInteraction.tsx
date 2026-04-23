@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header, Button, DecorativeIcon } from '@/components';
 import { localImages } from '@/lib/localImages';
-import { getPrintedCards, PrintedCard } from '@/lib/archiveStorage';
+import { clearPrintedCards, deletePrintedCard, getPrintedCards, PrintedCard } from '@/lib/archiveStorage';
 
 export const FinalInteraction: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +15,29 @@ export const FinalInteraction: React.FC = () => {
 
   const handleReplay = () => {
     navigate('/');
+  };
+
+  const handleDeleteCard = (cardId: string) => {
+    const confirmDelete = window.confirm('Hapus card ini dari archive?');
+    if (!confirmDelete) {
+      return;
+    }
+
+    setPrintedCards(deletePrintedCard(cardId));
+    if (expandedCardId === cardId) {
+      setExpandedCardId(null);
+    }
+  };
+
+  const handleClearHistory = () => {
+    const confirmClear = window.confirm('Hapus semua riwayat archive? Aksi ini tidak bisa dibatalkan.');
+    if (!confirmClear) {
+      return;
+    }
+
+    clearPrintedCards();
+    setExpandedCardId(null);
+    setPrintedCards([]);
   };
 
   return (
@@ -42,6 +65,18 @@ export const FinalInteraction: React.FC = () => {
         <section className="w-full mb-10">
           <h2 className="font-headline-md text-headline-md text-primary italic text-center mb-4">Archive Capture</h2>
           <p className="text-center text-on-surface-variant mb-6">Riwayat foto yang sudah tercetak ke card ucapan.</p>
+
+          {printedCards.length > 0 && (
+            <div className="mb-5 flex justify-center">
+              <button
+                type="button"
+                onClick={handleClearHistory}
+                className="bg-red-900 text-white px-4 py-2 rounded-md text-sm font-bold uppercase tracking-wide hover:bg-red-800 transition-colors"
+              >
+                Hapus Semua Riwayat
+              </button>
+            </div>
+          )}
 
           {printedCards.length === 0 ? (
             <div className="bg-surface-container p-6 rounded-lg text-center border border-outline-variant">
@@ -94,6 +129,13 @@ export const FinalInteraction: React.FC = () => {
                     className="bg-primary-container text-white px-4 py-2 rounded-md text-sm font-bold"
                   >
                     {expandedCardId === card.id ? 'Tutup foto' : 'Lihat semua foto'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteCard(card.id)}
+                    className="mt-2 bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold"
+                  >
+                    Hapus Card Ini
                   </button>
                 </article>
               ))}

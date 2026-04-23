@@ -27,3 +27,13 @@ export const savePrintedCard = (card: PrintedCard): void => {
   const next = [card, ...current].slice(0, 30);
   localStorage.setItem(ARCHIVE_KEY, JSON.stringify(next));
 };
+
+export const deletePrintedCard = (cardId: string): PrintedCard[] => {
+  const next = getPrintedCards().filter((card) => card.id !== cardId);
+  localStorage.setItem(ARCHIVE_KEY, JSON.stringify(next));
+  return next;
+};
+
+export const clearPrintedCards = (): void => {
+  localStorage.removeItem(ARCHIVE_KEY);
+};
