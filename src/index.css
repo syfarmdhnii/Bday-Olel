@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Custom grain effect for scrapbook aesthetic */
+  @supports (background-image: url('')) {
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      mix-blend-mode: multiply;
+      opacity: 0.1;
+      background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+      background-repeat: repeat;
+    }
+  }
+}
+
+@layer components {
+  .scrapbook-grain {
+    @apply relative;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    background-repeat: repeat;
+    mix-blend-mode: multiply;
+    opacity: 0.05;
+  }
+
+  .tape-strip {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .washi-tape {
+    mask-image: url('data:image/svg+xml,%3Csvg width="100" height="40" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 5 L5 0 L10 4 L15 1 L20 5 L95 5 L100 0 L100 35 L95 40 L90 36 L85 39 L80 35 L5 35 L0 40 Z" fill="black"/%3E%3C/svg%3E');
+    mask-size: cover;
+    backdrop-filter: blur(1px);
+  }
+
+  .paper-page {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05), inset 0 0 50px rgba(139, 0, 0, 0.02);
+  }
+
+  .polaroid {
+    @apply bg-white p-4 shadow-xl transition-transform duration-500;
+    transform: rotate(-2deg);
+  }
+
+  .polaroid:hover {
+    @apply rotate-0 scale-105;
+  }
+
+  .button-tactile {
+    @apply relative transition-all duration-300;
+    box-shadow: 8px 8px 0px rgba(139, 0, 0, 0.2);
+  }
+
+  .button-tactile:active {
+    @apply translate-y-1;
+    box-shadow: none;
+  }
+
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .header-sticker-media {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+    filter: drop-shadow(0 5px 9px rgba(97, 0, 0, 0.18));
+  }
+
+  .sticker-heart {
+    clip-path: polygon(50% 93%, 8% 54%, 8% 31%, 22% 16%, 38% 16%, 50% 28%, 62% 16%, 78% 16%, 92% 31%, 92% 54%);
+  }
+
+  .sticker-star {
+    clip-path: polygon(50% 3%, 61% 33%, 95% 34%, 68% 53%, 78% 88%, 50% 67%, 22% 88%, 32% 53%, 5% 34%, 39% 33%);
+  }
+
+  .sticker-flower {
+    clip-path: polygon(50% 0%, 64% 16%, 83% 10%, 84% 30%, 100% 43%, 88% 58%, 91% 77%, 72% 80%, 61% 100%, 50% 88%, 39% 100%, 28% 80%, 9% 77%, 12% 58%, 0% 43%, 16% 30%, 17% 10%, 36% 16%);
+  }
+
+  .open-card-shell {
+    width: min(88vw, 340px);
+    height: 260px;
+    perspective: 1200px;
+  }
+
+  .open-card-base {
+    position: absolute;
+    inset: 18px 0 0 0;
+    border: 2px solid rgba(139, 0, 0, 0.25);
+    background: linear-gradient(145deg, #fffdf5 0%, #fef2d4 100%);
+    box-shadow: 0 20px 45px rgba(97, 0, 0, 0.18);
+    overflow: hidden;
+  }
+
+  .open-card-inner {
+    position: absolute;
+    inset: 16px;
+    border: 1px dashed rgba(139, 0, 0, 0.28);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: reveal-note 0.8s ease-out forwards;
+  }
+
+  .open-card-lid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 68%;
+    transform-origin: top center;
+    background: linear-gradient(140deg, #ffd9d0 0%, #ffb9ab 45%, #ff9e89 100%);
+    border: 2px solid rgba(139, 0, 0, 0.25);
+    box-shadow: 0 12px 20px rgba(97, 0, 0, 0.15);
+    animation: open-card-lid 0.95s cubic-bezier(0.23, 0.92, 0.3, 1) forwards;
+    z-index: 2;
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .text-outline {
+    color: #8e706b;
+  }
+}
+
+@keyframes open-card-lid {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-128deg);
+  }
+}
+
+@keyframes reveal-note {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
